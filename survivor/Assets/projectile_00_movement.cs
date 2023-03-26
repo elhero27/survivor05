@@ -6,27 +6,40 @@ public class projectile_00_movement : MonoBehaviour
 {
     public Vector3 direction;
     public float movespeed = 5.5f;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        // direction: last position of closest enemy
         direction = FindClosestEnemy().transform.position - transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // move in direction with movespeed
         transform.position = transform.position + direction.normalized * movespeed * Time.deltaTime;
     }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Collision with "Enemy" -> destroy this projectile
         if (collision.transform.gameObject.tag == "Enemy")
         {
             Destroy(gameObject);
         }
-        
+
+        if (collision.transform.gameObject.tag == "Player")
+        {
+            Physics.IgnoreCollision(GetComponent<Collider>(), collision.transform.gameObject.GetComponent<Collider>());
+        }
+
     }
 
+
+    // Search for closest gameObject with Tag "Enemy" and return it
     public GameObject FindClosestEnemy()
     {
         GameObject[] gos;
