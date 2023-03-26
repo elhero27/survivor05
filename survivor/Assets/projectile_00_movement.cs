@@ -6,6 +6,8 @@ public class projectile_00_movement : MonoBehaviour
 {
     public Vector3 direction;
     public float movespeed = 5.5f;
+    public float damageMultiplier = 1f;
+    public float damage = 1f;
 
 
     // Start is called before the first frame update
@@ -13,6 +15,9 @@ public class projectile_00_movement : MonoBehaviour
     {
         // direction: last position of closest enemy
         direction = FindClosestEnemy().transform.position - transform.position;
+        damageMultiplier = 1;
+        damage = 1;
+        
     }
 
     // Update is called once per frame
@@ -26,20 +31,32 @@ public class projectile_00_movement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Collision with "Enemy" -> destroy this projectile
-        if (collision.transform.gameObject.tag == "Enemy")
+        if (collision.gameObject.TryGetComponent<enemy00_movement>(out enemy00_movement enemy))
         {
+            enemy.takeDamage(damage);
             Destroy(gameObject);
         }
 
 
         // Collision with "Wall" -> destroy this projectile
-        if (collision.transform.gameObject.tag == "Wall")
+        if (collision.gameObject.tag == "Wall")
         {
             Destroy(gameObject);
         }
 
     }
 
+
+    public float getDamageMultiplier()
+    {
+        return damageMultiplier;
+    }
+
+
+    public void setDamage(float newDamage)
+    {
+        damage = newDamage;
+    }
 
     // Search for closest gameObject with Tag "Enemy" and return it
     public GameObject FindClosestEnemy()

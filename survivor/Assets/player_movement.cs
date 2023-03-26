@@ -15,6 +15,11 @@ public class player_movement : MonoBehaviour
     public float shotCooldown;
     public float shotTimer;
     public GameObject closestEnemy;
+    public float experiencePoints;
+    public float damage;
+    public float health;
+    public int level;
+    public float expToNextLevel;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +32,11 @@ public class player_movement : MonoBehaviour
         baseColor = sprite.color;
         waitOn = false;
         counterWait = 0;
+        expToNextLevel = 5;
+        experiencePoints = 0;
+        level = 1;
+        health = 10;
+        damage = 1;
     }
 
     // Update is called once per frame
@@ -84,18 +94,33 @@ public class player_movement : MonoBehaviour
             {
                 shotTimer = 0f;
                 GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                projectile.transform.parent = gameObject.transform;
+
+                if (projectile.gameObject.TryGetComponent<projectile_00_movement>(out projectile_00_movement proj))
+                {
+                    //proj.setDamage(proj.getDamageMultiplier() * damage);
+                    proj.gameObject.setDamage(2);
+                }
+                //projectile.gameObject.GetComponent<projectile_00_movement>.setDamage(2);
             }
 
-            
-            //Physics.IgnoreCollision(GetComponent<Collider>(), projectile.GetComponent<Collider>());
-            //Physics.IgnoreCollision(GetComponent<Collider>(), Instantiate(projectilePrefab, transform.position, Quaternion.identity).GetComponent<Collider>());
+        }
+
+
+        // Experience and Leveling
+        if (experiencePoints >= expToNextLevel)
+        {
+            level += 1;
+            damage += 1;
+            health += 1;
+            shotSpeed += 1;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Player hits enemy -> blink
-        if (collision.transform.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy")
         {
             sprite.color = new Color(1, 0, 0, 1);
             waitOn = true;
@@ -103,7 +128,7 @@ public class player_movement : MonoBehaviour
         }
 
 
-        if (collision.transform.gameObject.tag == "Projectile")
+        if (collision.gameObject.tag == "Projectile")
         {
         }
 
