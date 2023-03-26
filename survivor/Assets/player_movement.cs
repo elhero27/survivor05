@@ -5,18 +5,24 @@ using UnityEngine;
 public class player_movement : MonoBehaviour
 {
 
-    public float movespeed = 10;
+    public float movespeed;
     SpriteRenderer sprite;
     Color baseColor;
     bool waitOn;
     float counterWait;
-    public projectile_00_movement projectilePrefab;
-    public float shootSpeed = 1f;
-    public float counterShoot = 5f;
+    public GameObject projectilePrefab;
+    public float shotSpeed;
+    public float shotCooldown;
+    public float shotTimer;
+    public GameObject closestEnemy;
 
     // Start is called before the first frame update
     void Start()
     {
+        movespeed = 10;
+        shotSpeed = 5f;
+        shotCooldown = 10f;
+        shotTimer = 0f;
         sprite = GetComponent<SpriteRenderer>();
         baseColor = sprite.color;
         waitOn = false;
@@ -66,15 +72,23 @@ public class player_movement : MonoBehaviour
 
         // NOT WORKING
         // Shoot projectile at fixed intervals and deactivate collision between player and projectile
-        if (counterShoot <= 0)
+        if (shotTimer < shotCooldown)
         {
-            projectile_00_movement projectile = Instantiate(projectilePrefab);
-            Physics.IgnoreCollision(GetComponent<Collider>(), projectile.GetComponent<Collider>());
-            counterShoot = 5f;
+            shotTimer += shotSpeed * Time.deltaTime;
         }
         else
         {
-            counterShoot -= shootSpeed * Time.deltaTime;
+            // Shoot only when enemies are present
+            closestEnemy = FindClosestEnemy();
+            if (closestEnemy != null)
+            {
+                shotTimer = 0f;
+                GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            }
+
+            
+            //Physics.IgnoreCollision(GetComponent<Collider>(), projectile.GetComponent<Collider>());
+            //Physics.IgnoreCollision(GetComponent<Collider>(), Instantiate(projectilePrefab, transform.position, Quaternion.identity).GetComponent<Collider>());
         }
     }
 
@@ -92,5 +106,26 @@ public class player_movement : MonoBehaviour
         if (collision.transform.gameObject.tag == "Projectile")
         {
         }
+
+    }
+
+    public GameObject FindClosestEnemy()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
     }
 }

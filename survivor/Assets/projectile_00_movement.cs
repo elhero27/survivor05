@@ -31,9 +31,11 @@ public class projectile_00_movement : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (collision.transform.gameObject.tag == "Player")
+
+        // Collision with "Wall" -> destroy this projectile
+        if (collision.transform.gameObject.tag == "Wall")
         {
-            Physics.IgnoreCollision(GetComponent<Collider>(), collision.transform.gameObject.GetComponent<Collider>());
+            Destroy(gameObject);
         }
 
     }
