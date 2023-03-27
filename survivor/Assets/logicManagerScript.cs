@@ -42,11 +42,19 @@ public class logicManagerScript : MonoBehaviour
 
     public void changePlayerHealth(float maxHealthChange = 1f, float healthChange = 1f)
     {
-        // Update variables
-        playerMaxHealth += maxHealthChange;
-        playerHealth += healthChange;
 
-        // Update UI Text
+            playerMaxHealth += maxHealthChange;
+
+
+            playerHealth += healthChange;
+
+        Debug.Log(healthChange);
+
+            if (playerHealth >= playerMaxHealth)
+            {
+                playerHealth = playerMaxHealth;
+            }
+
         playerHealthText.text = "Health : " + playerHealth.ToString() + " / " + playerMaxHealth.ToString();
     }
 
