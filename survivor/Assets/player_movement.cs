@@ -116,7 +116,7 @@ public class player_movement : MonoBehaviour
 
                 if (projectile.gameObject.TryGetComponent<projectile_00_movement>(out projectile_00_movement proj))
                 {
-                    proj.setDamage(5);
+                    proj.setDamage(proj.getDamageMultiplier() * damage);
                 }
             }
         }
@@ -139,9 +139,8 @@ public class player_movement : MonoBehaviour
 
                 if (projectile.gameObject.TryGetComponent<projectile_01_movement>(out projectile_01_movement proj))
                 {
-                    proj.setDamage(5);
+                    proj.setDamage(proj.getDamageMultiplier() * damage);
                 }
-                //projectile.gameObject.GetComponent<projectile_00_movement>.setDamage(2);
             }
         }
 
@@ -182,10 +181,18 @@ public class player_movement : MonoBehaviour
         }
         if (health <= 0)
         {
-            Destroy(gameObject);
+            die();
         }
     }
 
+
+    private void die()
+    {
+        logic.gameOver();
+        movespeed = 0;
+        shotSpeed = 0;
+
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Player hits enemy -> blink

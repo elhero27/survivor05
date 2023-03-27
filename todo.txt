@@ -1,0 +1,26 @@
+game over screen 
+start screen
+
+UI hp bar
+
+Graphics Sprites, particles
+Sounds
+
+pickups heal/exp
+
+gegner
+gegner melee + ranged attacks
+
+attacken/spells (shield, movespeed, invincibility, ...) area damage, lasting effects
+range auf attacks
+
+
+upgrades/level up
+
+defence stats armor + defense (% + flat)
+elemental damage
+
+physik rigidbody
+-> gegner bodyblock
+knockback
+

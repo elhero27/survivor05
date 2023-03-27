@@ -35,13 +35,14 @@ public class enemy00_movement : MonoBehaviour
     public void takeDamage(float damage)
     {
         health -= damage;
+        Debug.Log("Enemy took " + damage.ToString() + " damage!");
         if (health <= 0)
         {
+            Debug.Log("Enemy died!");
             Destroy(gameObject);
             if (GameObject.FindWithTag("Player").TryGetComponent<player_movement>(out player_movement player))
             {
                 player.addExperience(experienceValue);
-                Debug.Log("expAdded");
             }
         }
 

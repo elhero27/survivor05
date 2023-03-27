@@ -7,7 +7,7 @@ public class projectile_01_movement : MonoBehaviour
     public Vector3 direction;
     public float movespeed = 5.5f;
     public float damageMultiplier = 3f;
-    public float damage = 1f;
+    public float damage;
     public float penetration;
 
 
@@ -16,19 +16,8 @@ public class projectile_01_movement : MonoBehaviour
     {
         // direction: last position of closest enemy
         direction = FindClosestEnemy().transform.position - transform.position;
-        damageMultiplier = 3;
-        damage = 1;
+        damageMultiplier = 5;
         penetration = 0;
-
-
-        // Set damage depending on multiplier and base damage of parent (player)
-        if (gameObject.transform.parent != null)
-        {
-            if (gameObject.transform.parent.gameObject.TryGetComponent<player_movement>(out player_movement player))
-            {
-                damage = player.getDamage() * damageMultiplier;
-            }
-        }
 
     }
 
@@ -45,7 +34,9 @@ public class projectile_01_movement : MonoBehaviour
         // Collision with "Enemy" -> destroy this projectile
         if (collision.gameObject.TryGetComponent<enemy00_movement>(out enemy00_movement enemy))
         {
+
             enemy.takeDamage(damage);
+
             penetration -= 1;
             if (penetration <= 0)
             {
