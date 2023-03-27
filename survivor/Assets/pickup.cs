@@ -9,14 +9,19 @@ public class pickup : MonoBehaviour
     private float SpawnTime;
     private float Timer;
     private float healAmount;
-    public logicManagerScript logic;
+    player_movement Player_Movement;
+
+    void Awake()
+    {
+        Player_Movement = GameObject.FindGameObjectWithTag("Player").GetComponent<player_movement>();
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
         Timer = 0f;
         SpawnTime = 10f;
-        logic = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<logicManagerScript>();
         healAmount = 5f;
     }
 
@@ -29,8 +34,10 @@ public class pickup : MonoBehaviour
         {
             pos = new Vector3(0, 0, 0);
             pos= Random.insideUnitCircle * 20;
-            Instantiate(pickupPrefab, pos, Quaternion.identity);
+            GameObject test = Instantiate(pickupPrefab, pos, Quaternion.identity);
+            Debug.Log(test);
             Debug.Log("Heal Spawned");
+            
             Timer = 0f;
         }
 
@@ -41,7 +48,7 @@ public class pickup : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            logic.changePlayerHealth(0,healAmount);
+            Player_Movement.heal(healAmount);
             Destroy(gameObject);
         }
     }
