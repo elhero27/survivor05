@@ -11,6 +11,7 @@ public class enemySpawner : MonoBehaviour
     public bool spawnGroup;
     public int spawnGroupSize;
     public int spawnGroupCounter;
+    public logicManagerScript logic;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,8 @@ public class enemySpawner : MonoBehaviour
         spawnGroup = false;
         spawnGroupSize = 10;
         spawnGroupCounter = 0;
+
+        logic = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<logicManagerScript>();
     }
 
     // Update is called once per frame
@@ -34,6 +37,7 @@ public class enemySpawner : MonoBehaviour
         {
             spawnTimer = 0f;
             spawnGroup = true;
+            logic.increaseWaveNumber();
         }
 
         if (spawnGroup)

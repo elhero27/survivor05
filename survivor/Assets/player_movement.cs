@@ -24,6 +24,8 @@ public class player_movement : MonoBehaviour
     public float vulnerableTimer;
     public bool vulnerable;
 
+    public logicManagerScript logic;
+
 
     // Start is called before the first frame update
     void Start()
@@ -45,7 +47,11 @@ public class player_movement : MonoBehaviour
         damage = 2;
 
         vulnerable = true;
-        
+
+        logic = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<logicManagerScript>();
+        logic.setPlayerHealth(health, health);
+
+
     }
 
     // Update is called once per frame
@@ -159,7 +165,25 @@ public class player_movement : MonoBehaviour
         damage += 1;
         health += 1;
         shotSpeed += 1;
-        expToNextLevel *= 2;
+        expToNextLevel *= 1.25f;
+        logic.increasePlayerLevel();
+        logic.changePlayerHealth(1, 1);
+    }
+
+    public void takeDamage(float damageInput)
+    {
+
+        if (vulnerable)
+        {
+            health -= damageInput;
+            logic.changePlayerHealth(0, -damageInput);
+            vulnerable = false;
+            vulnerableTimer = 0.2f;
+        }
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -170,28 +194,25 @@ public class player_movement : MonoBehaviour
             sprite.color = new Color(1, 0, 0, 1);
             if (collision.gameObject.TryGetComponent<enemy00_movement>(out enemy00_movement enemy))
             {
-                if (vulnerable)
-                {
-                    health -= enemy.getDamage();
-                    vulnerable = false;
-                    vulnerableTimer = 0.2f;
-                }
-            }
-            Debug.Log("Health left: " + health);
-            if (health <= 0)
-            {
-                Debug.Log("DU BIST GESTORBEN DU N00B!");
+
+                takeDamage(enemy.getDamage());
             }
         }
-
-
-        if (collision.gameObject.tag == "Projectile")
-        {
-
-        }
-
     }
 
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        // Player hits enemy -> blink
+        if (collision.gameObject.tag == "Enemy")
+        {
+            sprite.color = new Color(1, 0, 0, 1);
+            if (collision.gameObject.TryGetComponent<enemy00_movement>(out enemy00_movement enemy))
+            {
+                takeDamage(enemy.getDamage());
+            }
+        }
+    }
 
     public float getDamage()
     {
