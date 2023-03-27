@@ -51,7 +51,7 @@ public class player_movement : MonoBehaviour
         vulnerable = true;
 
         logic = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<logicManagerScript>();
-        logic.setPlayerHealth(health, health);
+        logic.setPlayerHealth(maxHealth, health);
 
 
     }
@@ -118,7 +118,7 @@ public class player_movement : MonoBehaviour
 
                 if (projectile.gameObject.TryGetComponent<projectile_00_movement>(out projectile_00_movement proj))
                 {
-                    proj.setDamage(5);
+                    proj.setDamage(proj.getDamageMultiplier() * damage);
                 }
             }
         }
@@ -141,9 +141,8 @@ public class player_movement : MonoBehaviour
 
                 if (projectile.gameObject.TryGetComponent<projectile_01_movement>(out projectile_01_movement proj))
                 {
-                    proj.setDamage(5);
+                    proj.setDamage(proj.getDamageMultiplier() * damage);
                 }
-                //projectile.gameObject.GetComponent<projectile_00_movement>.setDamage(2);
             }
         }
 
@@ -170,7 +169,10 @@ public class player_movement : MonoBehaviour
         shotSpeed += 1;
         expToNextLevel *= 1.25f;
         logic.increasePlayerLevel();
-        logic.changePlayerHealth(maxHealth, health);
+        logic.setPlayerHealth(maxHealth, health);
+        Debug.Log(maxHealth);
+        Debug.Log("--------------");
+        Debug.Log(health);
     }
 
     public void takeDamage(float damageInput)
@@ -185,7 +187,7 @@ public class player_movement : MonoBehaviour
         }
         if (health <= 0)
         {
-            Destroy(gameObject);
+            die();
         }
     }
 
@@ -195,12 +197,21 @@ public class player_movement : MonoBehaviour
 
         if (health >= maxHealth)
         {
+
             health = maxHealth;
         }
 
-        logic.setPlayerHealth(maxHealth, health);
+        logic.setPlayerHealth(maxHealth,health);
     }
 
+
+    private void die()
+    {
+        logic.gameOver();
+        movespeed = 0;
+        shotSpeed = 0;
+
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Player hits enemy -> blink

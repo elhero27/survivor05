@@ -45,7 +45,6 @@ public class logicManagerScript : MonoBehaviour
 
         playerMaxHealth += maxHealthChange;
         playerHealth += healthChange;
-        Debug.Log(healthChange);
 
         playerHealthText.text = "Health : " + playerHealth.ToString() + " / " + playerMaxHealth.ToString();
     }
