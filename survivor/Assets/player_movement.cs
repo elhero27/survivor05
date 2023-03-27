@@ -51,7 +51,7 @@ public class player_movement : MonoBehaviour
         vulnerable = true;
 
         logic = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<logicManagerScript>();
-        logic.setPlayerHealth(health, health);
+        logic.setPlayerHealth(maxHealth, health);
 
 
     }
@@ -165,10 +165,14 @@ public class player_movement : MonoBehaviour
         level += 1;
         damage += 1;
         health += 1;
+        maxHealth += 1;
         shotSpeed += 1;
         expToNextLevel *= 1.25f;
         logic.increasePlayerLevel();
-        logic.changePlayerHealth(1, 1);
+        logic.setPlayerHealth(maxHealth, health);
+        Debug.Log(maxHealth);
+        Debug.Log("--------------");
+        Debug.Log(health);
     }
 
     public void takeDamage(float damageInput)
@@ -193,11 +197,11 @@ public class player_movement : MonoBehaviour
 
         if (health >= maxHealth)
         {
-            healAmount=maxHealth-health
+
             health = maxHealth;
         }
 
-        logic.setPlayerHealth(health);
+        logic.setPlayerHealth(maxHealth,health);
     }
 
 
