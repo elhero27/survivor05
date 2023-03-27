@@ -7,6 +7,7 @@ TagManager:
   - Projectile
   - Enemy
   - Wall
+  - ProjectileWithHitbox
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - UI
   - Friend
   - Foe
-  - 
-  - 
+  - ProjectileWithHitbox
+  - ProjectileWithoutHitbox
   - 
   - 
   - 

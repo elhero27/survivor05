@@ -8,18 +8,22 @@ public class player_movement : MonoBehaviour
     public float movespeed;
     SpriteRenderer sprite;
     Color baseColor;
-    bool waitOn;
-    float counterWait;
     public GameObject projectilePrefab;
+    public GameObject projectilePrefab01;
     public float shotSpeed;
     public float shotCooldown;
     public float shotTimer;
+    public float shotCooldown01;
+    public float shotTimer01;
     public GameObject closestEnemy;
     public float experiencePoints;
     public float damage;
     public float health;
     public int level;
     public float expToNextLevel;
+    public float vulnerableTimer;
+    public bool vulnerable;
+
 
     // Start is called before the first frame update
     void Start()
@@ -28,15 +32,20 @@ public class player_movement : MonoBehaviour
         shotSpeed = 5f;
         shotCooldown = 10f;
         shotTimer = 0f;
+
+        shotCooldown01 = 5f;
+        shotTimer01 = 0f;
+
         sprite = GetComponent<SpriteRenderer>();
         baseColor = sprite.color;
-        waitOn = false;
-        counterWait = 0;
         expToNextLevel = 5;
         experiencePoints = 0;
         level = 1;
         health = 10;
-        damage = 1;
+        damage = 2;
+
+        vulnerable = true;
+        
     }
 
     // Update is called once per frame
@@ -65,22 +74,25 @@ public class player_movement : MonoBehaviour
 
 
         // Change color back after being hit
-        if (waitOn)
+        if (!vulnerable)
         {
-            if (counterWait <= 0)
+            if (vulnerableTimer <= 0)
             {
                 sprite.color = baseColor;
-                waitOn = false;
+                vulnerable = true;
             }
             else
             {
-                counterWait -= Time.deltaTime;
+                vulnerableTimer -= Time.deltaTime;
             }
 
         }
 
 
-        // NOT WORKING
+        {
+        }
+
+
         // Shoot projectile at fixed intervals and deactivate collision between player and projectile
         if (shotTimer < shotCooldown)
         {
@@ -94,27 +106,60 @@ public class player_movement : MonoBehaviour
             {
                 shotTimer = 0f;
                 GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-                projectile.transform.parent = gameObject.transform;
+                //projectile.transform.parent = gameObject.transform;
 
                 if (projectile.gameObject.TryGetComponent<projectile_00_movement>(out projectile_00_movement proj))
                 {
-                    //proj.setDamage(proj.getDamageMultiplier() * damage);
-                    proj.gameObject.setDamage(2);
+                    proj.setDamage(5);
+                }
+            }
+        }
+
+
+        // Shoot projectile at fixed intervals and deactivate collision between player and projectile
+        if (shotTimer01 < shotCooldown01)
+        {
+            shotTimer01 += shotSpeed * Time.deltaTime;
+        }
+        else
+        {
+            // Shoot only when enemies are present
+            closestEnemy = FindClosestEnemy();
+            if (closestEnemy != null)
+            {
+                shotTimer01 = 0f;
+                GameObject projectile = Instantiate(projectilePrefab01, transform.position, Quaternion.identity);
+                //projectile.transform.parent = gameObject.transform;
+
+                if (projectile.gameObject.TryGetComponent<projectile_01_movement>(out projectile_01_movement proj))
+                {
+                    proj.setDamage(5);
                 }
                 //projectile.gameObject.GetComponent<projectile_00_movement>.setDamage(2);
             }
-
         }
 
 
-        // Experience and Leveling
+    }
+
+
+    public void addExperience(float experience)
+    {
+        experiencePoints += experience;
         if (experiencePoints >= expToNextLevel)
         {
-            level += 1;
-            damage += 1;
-            health += 1;
-            shotSpeed += 1;
+            levelUp();
         }
+    }
+
+
+    public void levelUp()
+    {
+        level += 1;
+        damage += 1;
+        health += 1;
+        shotSpeed += 1;
+        expToNextLevel *= 2;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -123,16 +168,36 @@ public class player_movement : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             sprite.color = new Color(1, 0, 0, 1);
-            waitOn = true;
-            counterWait = 0.3f;
+            if (collision.gameObject.TryGetComponent<enemy00_movement>(out enemy00_movement enemy))
+            {
+                if (vulnerable)
+                {
+                    health -= enemy.getDamage();
+                    vulnerable = false;
+                    vulnerableTimer = 0.2f;
+                }
+            }
+            Debug.Log("Health left: " + health);
+            if (health <= 0)
+            {
+                Debug.Log("DU BIST GESTORBEN DU N00B!");
+            }
         }
 
 
         if (collision.gameObject.tag == "Projectile")
         {
+
         }
 
     }
+
+
+    public float getDamage()
+    {
+        return damage;
+    }
+
 
     public GameObject FindClosestEnemy()
     {

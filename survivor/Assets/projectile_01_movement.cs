@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class projectile_00_movement : MonoBehaviour
+public class projectile_01_movement : MonoBehaviour
 {
     public Vector3 direction;
     public float movespeed = 5.5f;
-    public float damageMultiplier = 1f;
+    public float damageMultiplier = 3f;
     public float damage = 1f;
     public float penetration;
 
@@ -16,9 +16,9 @@ public class projectile_00_movement : MonoBehaviour
     {
         // direction: last position of closest enemy
         direction = FindClosestEnemy().transform.position - transform.position;
-        damageMultiplier = 1;
+        damageMultiplier = 3;
         damage = 1;
-        penetration = 5;
+        penetration = 0;
 
 
         // Set damage depending on multiplier and base damage of parent (player)
@@ -29,7 +29,7 @@ public class projectile_00_movement : MonoBehaviour
                 damage = player.getDamage() * damageMultiplier;
             }
         }
-        
+
     }
 
     // Update is called once per frame

@@ -10,24 +10,24 @@ public class enemy00_movement : MonoBehaviour
     public float movespeed;
     public float health;
     public float damage;
+    public float experienceValue;
 
     // Start is called before the first frame update
     void Start()
     {
         movespeed = 3f;
-        health = 1f;
+        health = 5f;
         damage = 0.5f;
+        experienceValue = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
         // draw Vector to Position of player and move in that direction with "movespeed"
-        targetPosition = GameObject.Find("player").transform.position;
+        targetPosition = GameObject.FindWithTag("Player").transform.position;
         directionVector3 = targetPosition - transform.position;
         transform.position = transform.position + directionVector3.normalized * movespeed * Time.deltaTime;
-
-
 
     }
 
@@ -38,8 +38,19 @@ public class enemy00_movement : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
+            if (GameObject.FindWithTag("Player").TryGetComponent<player_movement>(out player_movement player))
+            {
+                player.addExperience(experienceValue);
+                Debug.Log("expAdded");
+            }
         }
 
+    }
+
+
+    public float getDamage()
+    {
+        return damage;
     }
 
 
