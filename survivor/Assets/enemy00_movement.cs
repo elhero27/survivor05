@@ -15,7 +15,7 @@ public class enemy00_movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        movespeed = 3f;
+        movespeed = 4.5f;
         health = 5f;
         damage = 0.5f;
         experienceValue = 1;
@@ -60,6 +60,14 @@ public class enemy00_movement : MonoBehaviour
         if (collision.gameObject.tag == "Projectile")
         {
         }
+    }
+
+    public void setAttributes(float movespeedIn, float healthIn, float damageIn, float expIn)
+    {
+        movespeed = movespeedIn;
+        health = healthIn;
+        damage = damageIn;
+        experienceValue = expIn;
     }
 
 }

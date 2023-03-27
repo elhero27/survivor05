@@ -5,7 +5,7 @@ using UnityEngine;
 public class projectile_00_movement : MonoBehaviour
 {
     public Vector3 direction;
-    public float movespeed = 5.5f;
+    public float movespeed = 10f;
     public float damageMultiplier = 1f;
     public float damage = 1f;
     public float penetration;

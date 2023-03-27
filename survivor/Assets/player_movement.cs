@@ -30,7 +30,7 @@ public class player_movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        movespeed = 10;
+        movespeed = 5;
         shotSpeed = 5f;
         shotCooldown = 10f;
         shotTimer = 0f;
