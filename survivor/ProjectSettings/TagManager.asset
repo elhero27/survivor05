@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - ProjectileWithHitbox
   - LogicManager
+  - Pickup
   layers:
   - Default
   - TransparentFX

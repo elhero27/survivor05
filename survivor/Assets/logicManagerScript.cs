@@ -35,14 +35,19 @@ public class logicScript : MonoBehaviour
     [ContextMenu("IncreaseWaveNumber3")]
     public void changePlayerHealth(float maxHealthChange=1f, float healthChange=1f)
     {
-        if (maxHealthChange > 0)
-        {
+
             playerMaxHealth += maxHealthChange;
-        }
-        if (healthChange > 0)
-        {
+
+
             playerHealth += healthChange;
-        }
+
+        Debug.Log(healthChange);
+
+            if (playerHealth >= playerMaxHealth)
+            {
+                playerHealth = playerMaxHealth;
+            }
+
         playerHealthText.text = "Health : " + playerHealth.ToString() + " / " + playerMaxHealth.ToString();
     }
 }

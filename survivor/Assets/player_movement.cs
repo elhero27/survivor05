@@ -19,6 +19,7 @@ public class player_movement : MonoBehaviour
     public float experiencePoints;
     public float damage;
     public float health;
+    public float maxHealth;
     public int level;
     public float expToNextLevel;
     public float vulnerableTimer;
@@ -44,6 +45,7 @@ public class player_movement : MonoBehaviour
         experiencePoints = 0;
         level = 1;
         health = 10;
+        maxHealth = 10;
         damage = 2;
 
         vulnerable = true;
@@ -184,6 +186,19 @@ public class player_movement : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void heal(float healAmount)
+    {
+        health += healAmount;
+
+        if (health >= maxHealth)
+        {
+            healAmount=maxHealth-health
+            health = maxHealth;
+        }
+
+        logic.setPlayerHealth(health);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
