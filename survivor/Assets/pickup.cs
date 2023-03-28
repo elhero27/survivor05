@@ -4,44 +4,28 @@ using UnityEngine;
 
 public class pickup : MonoBehaviour
 {
-    public GameObject pickupPrefab;
-    Vector3 pos;
-    private float SpawnTime;
-    private float Timer;
     private float healAmount;
-    public player_movement Player_Movement;
+    public player_movement PlayerMovement;
+    public logicManagerScript logic;
 
     // Start is called before the first frame update
     void Start()
     {
-        Timer = 0f;
-        SpawnTime = 10f;
-        Player_Movement = GameObject.FindGameObjectWithTag("Player").GetComponent<player_movement>();
+        PlayerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<player_movement>();
         healAmount = 5f;
-
+        logic = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<logicManagerScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Timer += Time.deltaTime;
-
-        if (Timer>=SpawnTime)
-        {
-            pos = new Vector3(0, 0, 0);
-            pos= Random.insideUnitCircle * 20;
-            GameObject test = Instantiate(pickupPrefab, pos, Quaternion.identity);
-            Timer = 0f;
-        }
-
-        
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-            Player_Movement.heal(healAmount);
+            PlayerMovement.heal(healAmount);
             Destroy(gameObject);
         }
     }

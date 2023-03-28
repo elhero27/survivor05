@@ -11,13 +11,53 @@ public class logicManagerScript : MonoBehaviour
     public float playerHealth;
     public int playerLevel = 1;
     public int waveNumber = 0;
-    public GameObject gameOverScreen;
 
+    public int numberOfEnemies = 0;
+    public int numberOfKills = 0;
+    public int highscore = 0;
 
     public Text playerHealthText;
     public Text playerLevelText;
     public Text waveNumberText;
+    public Text numberOfEnemiesText;
+    public Text numberOfKillsText;
+    public Text highscoreText;
+    public GameObject gameOverScreen;
 
+    public void Start()
+    {
+        numberOfEnemies = 0;
+        numberOfKills = 0;
+        highscore = PlayerPrefs.GetInt("Highscore", 0);
+        highscoreText.text = "Highscore: " + highscore.ToString();
+
+    }
+
+    public void Update()
+    {
+        refreshScore();
+    }
+
+
+    private void refreshScore()
+    {
+        numberOfEnemies = 0;
+        numberOfEnemies += GameObject.FindGameObjectsWithTag("Enemy").Length;
+        numberOfEnemiesText.text = "Kills to farm: " + numberOfEnemies.ToString();
+    }
+
+    public void addKillCount()
+    {
+        numberOfKills++;
+        numberOfKillsText.text = "Kills farmed: " + numberOfKills.ToString();
+
+        if (numberOfKills > highscore)
+        {
+            highscore = numberOfKills;
+            PlayerPrefs.SetInt("Highscore", highscore);
+            highscoreText.text = "Highscore: " + highscore.ToString();
+        }
+    }
 
     //[ContextMenu("IncreaseWaveNumber1")]
     public void increaseWaveNumber()

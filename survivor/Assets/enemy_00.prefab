@@ -102,6 +102,10 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   directionVector3: {x: 0, y: 0, z: 0}
   movespeed: 1
+  health: 0
+  damage: 0
+  experienceValue: 0
+  logic: {fileID: 0}
 --- !u!58 &1033747697862973086
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -130,7 +134,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0

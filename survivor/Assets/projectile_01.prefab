@@ -120,6 +120,7 @@ MonoBehaviour:
   damageMultiplier: 3
   damage: 1
   penetration: 0
+  logic: {fileID: 0}
 --- !u!50 &8137660811707227318
 Rigidbody2D:
   serializedVersion: 4

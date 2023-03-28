@@ -9,6 +9,7 @@ public class projectile_00_movement : MonoBehaviour
     public float damageMultiplier = 1f;
     public float damage;
     public float penetration;
+    public logicManagerScript logic;
 
 
     // Start is called before the first frame update
@@ -18,8 +19,8 @@ public class projectile_00_movement : MonoBehaviour
         direction = FindClosestEnemy().transform.position - transform.position;
         damageMultiplier = 1;
         penetration = 5;
+        logic = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<logicManagerScript>();
 
-        
     }
 
     // Update is called once per frame
@@ -45,7 +46,7 @@ public class projectile_00_movement : MonoBehaviour
 
 
         // Collision with "Wall" -> destroy this projectile
-        if (collision.gameObject.tag == "Wall")
+        else if (collision.gameObject.tag == "Wall")
         {
             Destroy(gameObject);
         }

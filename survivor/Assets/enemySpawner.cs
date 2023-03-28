@@ -75,7 +75,7 @@ public class enemySpawner : MonoBehaviour
         increaseWaveDifficulty(waveNumber);
         waveNumber++;
         logic.increaseWaveNumber();
-        for (int k = 1; k < spawnGroupSize; k++)
+        for(int k = 1; k < spawnGroupSize; k++)
         {
             Vector3 randPos = new Vector3(0, 0, 0);
             Vector3 distToPlayer = new Vector3(0, 0, 0);

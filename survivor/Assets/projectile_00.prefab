@@ -119,3 +119,4 @@ MonoBehaviour:
   damageMultiplier: 1
   damage: 1
   penetration: 0
+  logic: {fileID: 0}

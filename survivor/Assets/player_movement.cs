@@ -96,11 +96,6 @@ public class player_movement : MonoBehaviour
 
         }
 
-
-        {
-        }
-
-
         // Shoot projectile at fixed intervals and deactivate collision between player and projectile
         if (shotTimer < shotCooldown)
         {
@@ -170,9 +165,6 @@ public class player_movement : MonoBehaviour
         expToNextLevel *= 1.25f;
         logic.increasePlayerLevel();
         logic.setPlayerHealth(maxHealth, health);
-        Debug.Log(maxHealth);
-        Debug.Log("--------------");
-        Debug.Log(health);
     }
 
     public void takeDamage(float damageInput)

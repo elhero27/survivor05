@@ -11,6 +11,7 @@ public class enemy00_movement : MonoBehaviour
     public float health;
     public float damage;
     public float experienceValue;
+    public logicManagerScript logic;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ public class enemy00_movement : MonoBehaviour
         health = 5f;
         damage = 0.5f;
         experienceValue = 1;
+        logic = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<logicManagerScript>();
     }
 
     // Update is called once per frame
@@ -39,6 +41,8 @@ public class enemy00_movement : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
+            logic.addKillCount();
+
             if (GameObject.FindWithTag("Player").TryGetComponent<player_movement>(out player_movement player))
             {
                 player.addExperience(experienceValue);
