@@ -26,6 +26,7 @@ public class player_movement : MonoBehaviour
     public bool vulnerable;
 
     public logicManagerScript logic;
+    public healthbarBehaviourPlayer healthbar;
 
 
     // Start is called before the first frame update
@@ -165,6 +166,7 @@ public class player_movement : MonoBehaviour
         expToNextLevel *= 1.25f;
         logic.increasePlayerLevel();
         logic.setPlayerHealth(maxHealth, health);
+        healthbar.setHealth(maxHealth, health);
     }
 
     public void takeDamage(float damageInput)
@@ -174,6 +176,9 @@ public class player_movement : MonoBehaviour
         {
             health -= damageInput;
             logic.changePlayerHealth(0, -damageInput);
+            healthbar.setHealth(maxHealth, health);
+
+
             vulnerable = false;
             vulnerableTimer = 0.2f;
         }
@@ -194,6 +199,7 @@ public class player_movement : MonoBehaviour
         }
 
         logic.setPlayerHealth(maxHealth,health);
+        healthbar.setHealth(maxHealth, health);
     }
 
 

@@ -9,17 +9,16 @@ public class enemy00_movement : MonoBehaviour
     public Vector3 directionVector3;
     public float movespeed;
     public float health;
+    public float maxHealth;
     public float damage;
     public float experienceValue;
     public logicManagerScript logic;
+    public healthbarBehaviour healthbar;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        movespeed = 4.5f;
-        health = 5f;
-        damage = 0.5f;
-        experienceValue = 1;
         logic = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<logicManagerScript>();
     }
 
@@ -37,7 +36,7 @@ public class enemy00_movement : MonoBehaviour
     public void takeDamage(float damage)
     {
         health -= damage;
-    
+        
         if (health <= 0)
         {
             Destroy(gameObject);
@@ -47,6 +46,10 @@ public class enemy00_movement : MonoBehaviour
             {
                 player.addExperience(experienceValue);
             }
+        }
+        else
+        {
+            healthbar.setHealth(maxHealth, health);
         }
 
     }
@@ -58,20 +61,14 @@ public class enemy00_movement : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Collision with "Projectile" -> destroy enemy
-        if (collision.gameObject.tag == "Projectile")
-        {
-        }
-    }
-
     public void setAttributes(float movespeedIn, float healthIn, float damageIn, float expIn)
     {
         movespeed = movespeedIn;
-        health = healthIn;
+        maxHealth = healthIn;
+        health = maxHealth;
         damage = damageIn;
         experienceValue = expIn;
+        healthbar.setHealth(maxHealth, health);
     }
 
 }

@@ -36,10 +36,10 @@ public class enemySpawner : MonoBehaviour
 
 
         baseEnemySpeed = 4;
-        baseEnemyHealth = 3;
+        baseEnemyHealth = 30;
         baseEnemyDamage = 0.5f;
         baseEnemyExp = 1;
-        baseGroupSize = 30;
+        baseGroupSize = 3;
 
         increaseWaveDifficulty(waveNumber);
         logic = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<logicManagerScript>();

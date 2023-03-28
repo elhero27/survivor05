@@ -24,3 +24,5 @@ physik rigidbody
 -> gegner bodyblock
 knockback
 
+
+healthbar (player) in logic manager verschieben
