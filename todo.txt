@@ -1,12 +1,13 @@
 game over screen 
 start screen
 
-UI hp bar
 
 Graphics Sprites, particles
 Sounds
 
 pickups heal/exp
+
+ep anzeige
 
 gegner
 gegner melee + ranged attacks
@@ -24,5 +25,6 @@ physik rigidbody
 -> gegner bodyblock
 knockback
 
-
+%% semi wichtig
 healthbar (player) in logic manager verschieben
+

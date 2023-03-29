@@ -24,6 +24,8 @@ public class logicManagerScript : MonoBehaviour
     public Text highscoreText;
     public GameObject gameOverScreen;
 
+    public pauseManager pauseManager;
+
     public void Start()
     {
         numberOfEnemies = 0;
@@ -103,11 +105,13 @@ public class logicManagerScript : MonoBehaviour
 public void restartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        pauseManager.pauseGame();
     }
 
 
     public void gameOver()
     {
         gameOverScreen.SetActive(true);
+        pauseManager.pauseGame();
     }
 }

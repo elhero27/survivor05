@@ -38,7 +38,7 @@ public class enemySpawner : MonoBehaviour
         baseEnemySpeed = 4;
         baseEnemyHealth = 30;
         baseEnemyDamage = 0.5f;
-        baseEnemyExp = 1;
+        baseEnemyExp = 5;
         baseGroupSize = 3;
 
         increaseWaveDifficulty(waveNumber);

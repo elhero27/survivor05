@@ -27,7 +27,10 @@ public class player_movement : MonoBehaviour
 
     public logicManagerScript logic;
     public healthbarBehaviourPlayer healthbar;
+    public pauseManager pauseManager;
+    public upgradeChoiceManager upgradeChoiceManager;
 
+    public string[] playerAttributes;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +57,7 @@ public class player_movement : MonoBehaviour
         logic = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<logicManagerScript>();
         logic.setPlayerHealth(maxHealth, health);
 
+        playerAttributes = new string[] { "maxHealth", "shotSpeed", "damage", "movespeed" };
 
     }
 
@@ -159,14 +163,24 @@ public class player_movement : MonoBehaviour
     public void levelUp()
     {
         level += 1;
-        damage += 1;
-        health += 1;
-        maxHealth += 1;
-        shotSpeed += 1;
+        upgradeChoiceManager.pickUpgrade();
         expToNextLevel *= 1.25f;
         logic.increasePlayerLevel();
-        logic.setPlayerHealth(maxHealth, health);
-        healthbar.setHealth(maxHealth, health);
+
+    }
+
+    public void increaseStats(float maxHealthIn = 0, float shotSpeedIn = 0, float damageIn = 0, float movespeedIn = 0)
+    {
+        if (maxHealthIn != 0)
+        {
+            maxHealth += maxHealthIn;
+            health += maxHealthIn;
+            logic.setPlayerHealth(maxHealth, health);
+            healthbar.setHealth(maxHealth, health);
+        }
+        if (shotSpeedIn != 0) { shotSpeed += shotSpeedIn; }
+        if (damageIn != 0) { damage += damageIn; }
+        if (movespeedIn != 0) { movespeed += movespeedIn; }
     }
 
     public void takeDamage(float damageInput)
@@ -236,6 +250,12 @@ public class player_movement : MonoBehaviour
                 takeDamage(enemy.getDamage());
             }
         }
+    }
+
+
+    public string getPlayerAttribute(int index)
+    {
+        return playerAttributes[index];
     }
 
     public float getDamage()
