@@ -6,6 +6,7 @@ public class player_movement : MonoBehaviour
 {
 
     public float movespeed;
+    public float baseMovespeed = 5;
     SpriteRenderer sprite;
     Color baseColor;
     public GameObject projectilePrefab;
@@ -25,17 +26,24 @@ public class player_movement : MonoBehaviour
     public float vulnerableTimer;
     public bool vulnerable;
 
+    Rigidbody2D rb;
+    public float acceleration;
+    public float normalAcceleration;
+    public Transform arrow;
+
     public logicManagerScript logic;
     public healthbarBehaviourPlayer healthbar;
     public pauseManager pauseManager;
     public upgradeChoiceManager upgradeChoiceManager;
+
+    public Vector3 movementInput;
 
     public string[] playerAttributes;
 
     // Start is called before the first frame update
     void Start()
     {
-        movespeed = 5;
+        movespeed = baseMovespeed;
         shotSpeed = 5f;
         shotCooldown = 10f;
         shotTimer = 0f;
@@ -43,7 +51,7 @@ public class player_movement : MonoBehaviour
         shotCooldown01 = 5f;
         shotTimer01 = 0f;
 
-        sprite = GetComponent<SpriteRenderer>();
+        sprite = arrow.GetComponent<SpriteRenderer>();
         baseColor = sprite.color;
         expToNextLevel = 5;
         experiencePoints = 0;
@@ -59,32 +67,46 @@ public class player_movement : MonoBehaviour
 
         playerAttributes = new string[] { "maxHealth", "shotSpeed", "damage", "movespeed" };
 
+        rb = GetComponent<Rigidbody2D>();
+        acceleration = normalAcceleration;
+
+
     }
 
+
+    //void FixedUpdate()
+    //{
+    //    movementInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    //    rb.velocity += movementInput * acceleration * Time.fixedDeltaTime;
+    //}
     // Update is called once per frame
     void Update()
     {
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        arrow.up = (mousePos - (Vector2)transform.position).normalized;
 
+        movementInput = Vector3.zero;
         if (Input.GetKey(KeyCode.W) == true)
         {
-            transform.position = transform.position + (Vector3.up * movespeed) * Time.deltaTime;
+            movementInput += (Vector3.up * movespeed) * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.S) == true)
         {
-            transform.position = transform.position + (Vector3.down * movespeed) * Time.deltaTime;
+            movementInput += (Vector3.down * movespeed) * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.D) == true)
         {
-            transform.position = transform.position + (Vector3.right * movespeed) * Time.deltaTime;
+            movementInput += (Vector3.right * movespeed) * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.A) == true)
         {
-            transform.position = transform.position + (Vector3.left * movespeed) * Time.deltaTime;
+            movementInput += (Vector3.left * movespeed) * Time.deltaTime;
         }
-
+        //transform.position += movementInput;
+        rb.velocity = movementInput.normalized * movespeed;
 
         // Change color back after being hit
         if (!vulnerable)
@@ -104,7 +126,7 @@ public class player_movement : MonoBehaviour
         // Shoot projectile at fixed intervals and deactivate collision between player and projectile
         if (shotTimer < shotCooldown)
         {
-            shotTimer += shotSpeed * Time.deltaTime;
+            //shotTimer += shotSpeed * Time.deltaTime;
         }
         else
         {
@@ -127,7 +149,7 @@ public class player_movement : MonoBehaviour
         // Shoot projectile at fixed intervals and deactivate collision between player and projectile
         if (shotTimer01 < shotCooldown01)
         {
-            shotTimer01 += shotSpeed * Time.deltaTime;
+            //shotTimer01 += shotSpeed * Time.deltaTime;
         }
         else
         {

@@ -13,7 +13,7 @@ public class projectile_00_movement : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         // direction: last position of closest enemy
         direction = FindClosestEnemy().transform.position - transform.position;

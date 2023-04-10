@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 674e09aeae165e54186327d8800432d9, type: 3}
+  m_Name: IceShot
+  m_EditorClassIdentifier: 
+  name: IceShot
+  cooldownTime: 2
+  activeTime: 0.1
+  projectilePrefab: {fileID: 832704522708601055, guid: 5b0f87ef95dc0024db7621866ec98a7f, type: 3}
+  direction: {x: 0, y: 0, z: 0}

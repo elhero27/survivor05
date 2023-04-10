@@ -10,6 +10,17 @@ survivor/[Bb]uilds/
 survivor/[Ll]ogs/
 survivor/[Mm]emoryCaptures/
 
+
+test00/[Ll]ibrary/
+test00/[Tt]emp/
+test00/[Oo]bj/
+test00/[Bb]uild/
+test00/[Bb]uilds/
+test00/[Ll]ogs/
+test00/[Mm]emoryCaptures/
+
+
+
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
 
